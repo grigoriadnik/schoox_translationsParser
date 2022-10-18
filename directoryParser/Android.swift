@@ -189,7 +189,7 @@ class AndroidParser
        
         var matchedStrings: [String] = []
         for aTranslation in translations {
-            if aTranslation.contains("...") || aTranslation.hasSuffix(" ") || aTranslation.hasPrefix(" ") {
+            if aTranslation.contains("...") || aTranslation.hasSuffix(" ") || aTranslation.hasPrefix(" ") || aTranslation.hasSuffix(".") {
                 matchedStrings = matchedStrings + [aTranslation]
             }
         }

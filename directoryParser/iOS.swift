@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import AppKit
 
 class iOSParser
 {
@@ -13,6 +14,19 @@ class iOSParser
     
     class func run_find_errors()
     {
+        NSSpellChecker.shared.setLanguage("en")
+        NSSpellChecker.shared.learnWord("coachee")
+        NSSpellChecker.shared.learnWord("enrollment")
+        NSSpellChecker.shared.learnWord("initializing")
+        NSSpellChecker.shared.learnWord("unsubmitted")
+        NSSpellChecker.shared.learnWord("coachees")
+        NSSpellChecker.shared.learnWord("organization")
+        NSSpellChecker.shared.learnWord("organizational")
+        NSSpellChecker.shared.learnWord("personalized")
+        NSSpellChecker.shared.learnWord("authorized")
+        
+        
+        //
         var errorDict: [String:[String]] = [:]
         var percentage = 0
         
@@ -51,12 +65,6 @@ class iOSParser
                 errorDict[aFile] = foundErrors
                 print("files with error: \(errorDict.keys.count)")
             }
-            //
-//
-//            if let foundErrors = find_StringFormatAndGetMobileText(atPath: aFile), !foundErrors.isEmpty {
-//                errorDict[aFile] = foundErrors
-//                print("files with error: \(errorDict.keys.count)")
-//            }
             
             let current = iosProjectDirectory.firstIndex(of: aFile)!
             
@@ -160,6 +168,7 @@ class iOSParser
      
      examples:
      newInstance?.staticStratingDate.text = "?" + StringsContainer.getTextMobile("Due Date")+":"
+     
      */
     private class func find_Punctunation_Errors(atPath path: String) -> [String]?
     {
@@ -252,6 +261,9 @@ class iOSParser
      unicode errors
      leading whitespaces
      trailing whitespaces
+     ends with period
+     contains "are you sure?"
+     spell checking
      */
     private class func find_translationTextError(atPath path: String) -> [String]?
     {
@@ -262,11 +274,27 @@ class iOSParser
         
         let texts = fetchTranslations(atPath: path)
         for aText in texts {
-            if aText.contains("...") || aText.hasPrefix(" ") || aText.hasSuffix(" ") {
+            if aText.contains("...") || aText.contains("\\u") || aText.hasPrefix(" ") || aText.hasSuffix(" ") || aText.hasSuffix(".") || aText.lowercased().contains("are you sure?") || !isCorrect(word: aText) || aText.contains("|") {
                 matchedStrings.append(aText)
             }
         }
+        //… \u2026
+        //• \u2022
+        //© \u00A9
+        
+        
         return matchedStrings
+    }
+    
+    private class func isCorrect(word: String)->Bool{
+        
+        let range = NSSpellChecker.shared.checkSpelling(of: word, startingAt: 0)
+        //let range = NSSpellChecker.shared.checkGrammar(of: word, startingAt: 0, language: "en", wrap: true, inSpellDocumentWithTag: 0, details: nil)
+        if range.location != NSNotFound {
+            print("O:" + word)
+            print("I:" + NSString(string: word).substring(with: range))
+        }
+        return range.location == NSNotFound
     }
     /*
      return all lines that use a translated string and getTextMobile is not its format
@@ -338,29 +366,29 @@ class iOSParser
     }
     
     //find lines that contain "format" followed by "getTextMobile"
-    private class func find_StringFormatAndGetMobileText(atPath path: String) -> [String]?
-    {
-        if !path.hasSuffix("swift") && !path.hasSuffix("m") {
-            return nil
-        }
-        var matchedStrings : [String] = []
-        
-        guard let text = try? String(contentsOfFile: path) else {
-            return nil
-        }
-        //for text between quotes: (["'])(?:(?=(\\?))\2.)*?\1
-        let regex = try! NSRegularExpression(pattern: ".*format.*.getTextMobile.*")
-        
-        let matches = regex.matches(in: text, options: [], range: NSRange(text.startIndex...,in: text))
-        for aMatch in matches {
-            
-            let matchedString = String(text[Range(aMatch.range, in: text)!])
-            //let quoteIndex = matchedString.firstIndex(of: "\"")
-            matchedStrings.append(matchedString)
-        }
-        
-        return matchedStrings
-    }
+//    private class func find_StringFormatAndGetMobileText(atPath path: String) -> [String]?
+//    {
+//        if !path.hasSuffix("swift") && !path.hasSuffix("m") {
+//            return nil
+//        }
+//        var matchedStrings : [String] = []
+//
+//        guard let text = try? String(contentsOfFile: path) else {
+//            return nil
+//        }
+//        //for text between quotes: (["'])(?:(?=(\\?))\2.)*?\1
+//        let regex = try! NSRegularExpression(pattern: ".*format.*.getTextMobile.*")
+//
+//        let matches = regex.matches(in: text, options: [], range: NSRange(text.startIndex...,in: text))
+//        for aMatch in matches {
+//
+//            let matchedString = String(text[Range(aMatch.range, in: text)!])
+//            //let quoteIndex = matchedString.firstIndex(of: "\"")
+//            matchedStrings.append(matchedString)
+//        }
+//
+//        return matchedStrings
+//    }
     
     
     
