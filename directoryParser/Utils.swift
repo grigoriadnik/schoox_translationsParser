@@ -20,7 +20,7 @@ func jsonprint(object: Any)
 func isCodeFile(atPath path: String) -> Bool
 {
     let pathExtension = URL(fileURLWithPath: path).pathExtension
-    return pathExtension == "swift" || pathExtension == "m" || pathExtension == "java" || pathExtension == "xml"
+    return pathExtension == "swift" || pathExtension == "m" || pathExtension == "java" //|| pathExtension == "xml"
 }
 
 func isObjcFile(atPath path: String) -> Bool

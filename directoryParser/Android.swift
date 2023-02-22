@@ -17,36 +17,27 @@ class AndroidParser
         var percentage = 0
         
         for aFile in androidProjectDirectory {
-            
-//            if let foundErrors = find_LeadingAppendPlus(atPath: aFile), !foundErrors.isEmpty {
-//                errorDict[aFile] = foundErrors
-//                print("files with error: \(errorDict.keys.count)")
-//            }
+            if let foundErrors = find_LeadingAppendPlus(atPath: aFile), !foundErrors.isEmpty {
+                errorDict[aFile] = foundErrors
+                print("files with error: \(errorDict.keys.count)")
+            }
 //
-//            if let foundErrors = find_TrailingAppendPlus(atPath: aFile), !foundErrors.isEmpty {
-//                errorDict[aFile] = foundErrors
-//                print("files with error: \(errorDict.keys.count)")
-//            }
-//
+            if let foundErrors = find_TrailingAppendPlus(atPath: aFile), !foundErrors.isEmpty {
+                errorDict[aFile] = foundErrors
+                print("files with error: \(errorDict.keys.count)")
+            }
+
 //            if let foundErrors = find_getTextMobile(atPath: aFile), !foundErrors.isEmpty {
 //                errorDict[aFile] = foundErrors
 //                print("files with error: \(errorDict.keys.count)")
 //            }
-//            
-//            if let foundErrors = parseXMLFileForAndroid(atPath: aFile), !foundErrors.isEmpty {
-//                errorDict[aFile] = foundErrors
-//                print("files with error: \(errorDict.keys.count)")
-//            }
-//            if let foundErrors = find_doubleTextMobile(atPath: aFile), !foundErrors.isEmpty {
-//                errorDict[aFile] = foundErrors
-//                print("files with error: \(errorDict.keys.count)")
-//            }
-//            if let foundErrors = parseJavaFileForAndroid(atPath: aFile), !foundErrors.isEmpty {
-//                errorDict[aFile] = foundErrors
-//                print("files with error: \(errorDict.keys.count)")
-//            }
 
-            
+            if let foundErrors = find_doubleTextMobile(atPath: aFile), !foundErrors.isEmpty {
+                errorDict[aFile] = foundErrors
+                print("files with error: \(errorDict.keys.count)")
+            }
+
+
             if let foundErrors = find_translationTextError(atPath: aFile), !foundErrors.isEmpty {
                 errorDict[aFile] = foundErrors
                 print("files with error: \(errorDict.keys.count)")
@@ -94,7 +85,7 @@ class AndroidParser
         for aFile in androidProjectDirectory {
             
             texts = texts + parseJavaFileForAndroid(atPath: aFile)
-            texts = texts + parseXMLFileForAndroid(atPath: aFile)
+            //texts = texts + parseXMLFileForAndroid(atPath: aFile)
             
             let current = androidProjectDirectory.firstIndex(of: aFile)!
             let updatedPercentage =  Int(Double(current) / Double(androidProjectDirectory.count) * 100.0)
@@ -200,24 +191,22 @@ class AndroidParser
     {
         var matchedStrings : [String] = []
         
-        guard let text = try? String(contentsOfFile: path) else {
-            return []
-        }
-        
-        let regex = try! NSRegularExpression(pattern: "getMobileText(?:(?![])]).)*")
+        let text = try! String(contentsOfFile: path)
+        //for text between quotes: (["'])(?:(?=(\\?))\2.)*?\1
+        let regex = try! NSRegularExpression(pattern: "getMobileText[\\s:(@]+([\"'])(?:(?=(\\\\?))\\2.)*?\\1")
         
         let matches = regex.matches(in: text, options: [], range: NSRange(text.startIndex...,in: text))
         for aMatch in matches {
+            
             var matchedString = String(text[Range(aMatch.range, in: text)!])
-            matchedString = matchedString.replacingOccurrences(of: "getMobileText:@\"", with: "")
-            matchedString = matchedString.replacingOccurrences(of: "getMobileText:", with: "")
-            matchedString = matchedString.replacingOccurrences(of: "getMobileText(\"", with: "")
-            matchedString = matchedString.replacingOccurrences(of: "\"", with: "")
-            if matchedString.contains(" ") {
-                matchedStrings.append(matchedString)
-            }
+            let quoteIndex = matchedString.firstIndex(of: "\"")
+            let replace1 = String(matchedString[..<quoteIndex!])
+            
+            matchedString = matchedString.replacingOccurrences(of: replace1, with: "")
+            matchedString = String(matchedString.dropFirst())
+            matchedString = String(matchedString.dropLast())
+            matchedStrings.append(matchedString)
         }
-        
         return matchedStrings
     }
 

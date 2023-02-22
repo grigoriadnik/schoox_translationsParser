@@ -24,6 +24,11 @@ class iOSParser
         NSSpellChecker.shared.learnWord("organizational")
         NSSpellChecker.shared.learnWord("personalized")
         NSSpellChecker.shared.learnWord("authorized")
+        NSSpellChecker.shared.learnWord("Unassign")
+        NSSpellChecker.shared.learnWord("Curriculum")
+        NSSpellChecker.shared.learnWord("Unassign Curriculum")
+        NSSpellChecker.shared.learnWord("Unassign Event")
+        NSSpellChecker.shared.learnWord("Unassign Course")
         
         
         //
@@ -65,7 +70,7 @@ class iOSParser
                 errorDict[aFile] = foundErrors
                 print("files with error: \(errorDict.keys.count)")
             }
-            
+//
             let current = iosProjectDirectory.firstIndex(of: aFile)!
             
             let updatedPercentage =  Int(Double(current) / Double(iosProjectDirectory.count) * 100.0)
@@ -274,7 +279,7 @@ class iOSParser
         
         let texts = fetchTranslations(atPath: path)
         for aText in texts {
-            if aText.contains("...") || aText.contains("\\u") || aText.hasPrefix(" ") || aText.hasSuffix(" ") || aText.hasSuffix(".") || aText.lowercased().contains("are you sure?") || !isCorrect(word: aText) || aText.contains("|") {
+            if aText.contains("...") || aText.contains("\\u") || aText.hasPrefix(" ") || aText.hasSuffix(" ") || aText.hasSuffix(".") || aText.lowercased().contains("are you sure?") || !isCorrect(word: aText) || aText.contains("|") || aText.lowercased().contains("e.g") || aText.contains("Eg.") {
                 matchedStrings.append(aText)
             }
         }
