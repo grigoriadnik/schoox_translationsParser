@@ -77,7 +77,7 @@ class AndroidParser
         print("Total number: \(errorCounter)")
     }
     
-    class func run_extract_translations() -> Array<String>
+    class func run_extract_translations(replaceFormatters: Bool = false) -> Array<String>
     {
         var texts: [String] = []
         var percentage = 0
@@ -95,7 +95,21 @@ class AndroidParser
             }
         }
         
-        return Array(Set(texts))
+        if replaceFormatters {
+            return Array(Set(texts)).map {
+                $0.replacingOccurrences(of: "%s", with: "{formatter}")
+                .replacingOccurrences(of: "%d", with: "{formatter}")
+                .replacingOccurrences(of: "%1$s", with: "{formatter}")
+                .replacingOccurrences(of: "%2$s", with: "{formatter}")
+                .replacingOccurrences(of: "%3$s", with: "{formatter}")
+                .replacingOccurrences(of: "%1$d", with: "{formatter}")
+                .replacingOccurrences(of: "%3d", with: "{formatter}")
+                .replacingOccurrences(of: "%1d", with: "{formatter}")
+                .replacingOccurrences(of: "%2d", with: "{formatter}")
+            }
+        } else {
+            return Array(Set(texts))
+        }
     }
     
     private class func find_LeadingAppendPlus(atPath path: String) -> [String]?
@@ -180,7 +194,15 @@ class AndroidParser
        
         var matchedStrings: [String] = []
         for aTranslation in translations {
-            if aTranslation.contains("...") || aTranslation.hasSuffix(" ") || aTranslation.hasPrefix(" ") || aTranslation.hasSuffix(".") {
+            if aTranslation.contains("...")
+                || aTranslation.hasSuffix(" ")
+                || aTranslation.hasPrefix(" ")
+                || aTranslation.hasSuffix(".")
+                || aTranslation.lowercased().contains("user")
+                || aTranslation.lowercased().contains("on time")
+                || aTranslation.contains("|")
+                || aTranslation.contains("•")
+            {
                 matchedStrings = matchedStrings + [aTranslation]
             }
         }

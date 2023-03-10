@@ -259,9 +259,10 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = CMEB84Y6AL;
+				DEVELOPMENT_TEAM = F6SZHVD3AZ;
 				ENABLE_HARDENED_RUNTIME = YES;
 				MACOSX_DEPLOYMENT_TARGET = 12.3;
+				"PRODUCT_BUNDLE_IDENTIFIER[sdk=macosx*]" = translationsParser.schoox;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
 			};
@@ -271,9 +272,10 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = CMEB84Y6AL;
+				DEVELOPMENT_TEAM = F6SZHVD3AZ;
 				ENABLE_HARDENED_RUNTIME = YES;
 				MACOSX_DEPLOYMENT_TARGET = 12.3;
+				"PRODUCT_BUNDLE_IDENTIFIER[sdk=macosx*]" = translationsParser.schoox;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
 			};

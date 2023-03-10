@@ -29,6 +29,9 @@ class iOSParser
         NSSpellChecker.shared.learnWord("Unassign Curriculum")
         NSSpellChecker.shared.learnWord("Unassign Event")
         NSSpellChecker.shared.learnWord("Unassign Course")
+        NSSpellChecker.shared.learnWord("member`s")
+        NSSpellChecker.shared.learnWord("synchronization")
+        NSSpellChecker.shared.learnWord("Synchronizing")
         
         
         //
@@ -93,7 +96,7 @@ class iOSParser
         }
     }
     
-    class func run_extract_translations() -> Array<String>
+    class func run_extract_translations(replaceFormatters: Bool = false) -> Array<String>
     {
         var texts: [String] = []
         var percentage = 0
@@ -111,7 +114,19 @@ class iOSParser
         }
         
         
-        return Array(Set(texts))
+        if replaceFormatters {
+            return Array(Set(texts)).map {
+                $0.replacingOccurrences(of: "%@", with: "{formatter}")
+                    .replacingOccurrences(of: "%d", with: "{formatter}")
+                    .replacingOccurrences(of: "%lu", with: "{formatter}")
+                    .replacingOccurrences(of: "%ld", with: "{formatter}")
+                    .replacingOccurrences(of: "%.f", with: "{formatter}")
+                    .replacingOccurrences(of: "%.0f", with: "{formatter}")
+                    .replacingOccurrences(of: "%02ld", with: "{formatter}")
+            }
+        } else {
+            return Array(Set(texts))
+        }
 //        guard let data = try? JSONSerialization.data(withJSONObject: uniqueTexts, options: []) else {
 //            return
 //        }
@@ -279,7 +294,21 @@ class iOSParser
         
         let texts = fetchTranslations(atPath: path)
         for aText in texts {
-            if aText.contains("...") || aText.contains("\\u") || aText.hasPrefix(" ") || aText.hasSuffix(" ") || aText.hasSuffix(".") || aText.lowercased().contains("are you sure?") || !isCorrect(word: aText) || aText.contains("|") || aText.lowercased().contains("e.g") || aText.contains("Eg.") {
+            if aText.contains("...")
+                || aText.contains("\\u")
+                || aText.hasPrefix(" ")
+                || aText.hasSuffix(" ")
+                || aText.hasSuffix(".")
+                || aText.lowercased().contains("are you sure?")
+                || !isCorrect(word: aText)
+                || aText.contains("|")
+                || aText.lowercased().contains("e.g")
+                || aText.contains("Eg.")
+                || aText.lowercased().contains("user")
+                || aText.contains("|")
+                || aText.contains("•")
+                || (aText.contains("-") && !aText.contains("-%"))
+                || aText.contains("--"){
                 matchedStrings.append(aText)
             }
         }

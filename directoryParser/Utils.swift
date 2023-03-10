@@ -7,15 +7,29 @@
 
 import Foundation
 
-func jsonprint(object: Any)
-{
-    guard let data = try? JSONSerialization.data(withJSONObject: object, options: []) else {
-        exit(1)
-    }
-    let textsJSON = String(data: data, encoding: String.Encoding.utf8)
-    
-    print("\(textsJSON ?? "")")
+enum PrintOption {
+    case json
+    case array
 }
+
+func printTranslations(object: Any, printOption: PrintOption)
+{
+    if printOption == .json {
+        guard let data = try? JSONSerialization.data(withJSONObject: object, options: []) else {
+            exit(1)
+        }
+        let textsJSON = String(data: data, encoding: String.Encoding.utf8)
+        
+        print("\(textsJSON ?? "")")
+    } else if let translations = object as? [String], printOption == .array {
+        
+        for translation in translations {
+            print(translation)
+        }
+    }
+    
+}
+
 
 func isCodeFile(atPath path: String) -> Bool
 {
