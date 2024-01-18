@@ -23,13 +23,13 @@ case .iOS_find_errors:
     iOSParser.run_find_errors()
 case .iOS_fetch_translations:
     let translations = iOSParser.run_extract_translations()
-    printTranslations(object: translations, printOption: .json)
+    printTranslations(object: translations.sorted(), printOption: .json)
     print("total words: \(translations.count)")
 case .android_find_errors:
     AndroidParser.run_find_errors()
 case .android_fetch_translations:
     let translations = AndroidParser.run_extract_translations()
-    printTranslations(object: translations.sorted(), printOption: .array)
+    printTranslations(object: translations.sorted(), printOption: .json)
     print("total words: \(translations.count)")
 case .compareTranslations:
     

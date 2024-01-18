@@ -366,6 +366,7 @@ class iOSParser
         
         let text = try! String(contentsOfFile: path)
         //for text between quotes: (["'])(?:(?=(\\?))\2.)*?\1
+        
         let regex = try! NSRegularExpression(pattern: "getTextMobile[\\s:(@]+([\"'])(?:(?=(\\\\?))\\2.)*?\\1")
         
         let matches = regex.matches(in: text, options: [], range: NSRange(text.startIndex...,in: text))
@@ -379,6 +380,23 @@ class iOSParser
             matchedString = String(matchedString.dropFirst())
             matchedString = String(matchedString.dropLast())
             matchedStrings.append(matchedString)
+        }
+        
+        
+        if text.contains("TranslatableTextAPI") {
+            let regex = try! NSRegularExpression(pattern: "return \"(.*)\"")
+            let matches = regex.matches(in: text, options: [], range: NSRange(text.startIndex...,in: text))
+            for aMatch in matches {
+                
+                var matchedString = String(text[Range(aMatch.range, in: text)!])
+                let quoteIndex = matchedString.firstIndex(of: "\"")
+                let replace1 = String(matchedString[..<quoteIndex!])
+                
+                matchedString = matchedString.replacingOccurrences(of: replace1, with: "")
+                matchedString = String(matchedString.dropFirst())
+                matchedString = String(matchedString.dropLast())
+                matchedStrings.append(matchedString)
+            }
         }
         
         return matchedStrings
