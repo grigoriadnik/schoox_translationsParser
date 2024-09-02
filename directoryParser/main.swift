@@ -14,6 +14,7 @@ enum RunOption: String {
     case android_fetch_translations
     case fetch_translations_for_both
     case compareTranslations
+    case combineTranslations
 }
 
 let option = RunOption(rawValue: ProcessInfo.processInfo.environment["runOption"]!)!
@@ -50,12 +51,41 @@ case .compareTranslations:
     print("only on android: \(androidOnly.count)")
     print("common: \(common.count)")
     
-
-    
 case .fetch_translations_for_both:
     var translations = iOSParser.run_extract_translations()
     translations = translations + AndroidParser.run_extract_translations()
     translations = Array(Set(translations))
     printTranslations(object: translations, printOption: .json)
     print("total words: \(translations.count)")
+    
+    
+case .combineTranslations:
+    
+    let iosLegacy = Set(loadWordsJson(.iosLegacy))
+    let iosSigma = Set(loadWordsJson(.iosSigma))
+    let androidLegacy = Set(loadWordsJson(.androidLegacy))
+    let androidSigma = Set(loadWordsJson(.androidSigma))
+    
+    let iOSOnlyOnLegacy = iosLegacy.subtracting(iosSigma)
+    let iOSOnlyOnSigma = iosSigma.subtracting(iosLegacy)
+    
+    let androidOnlyLegacy = androidLegacy.subtracting(androidSigma)
+    let androidOnlySigma = androidSigma.subtracting(androidLegacy)
+    
+    let totalWords = iosLegacy.union(iosSigma).union(androidLegacy).union(androidSigma)
+    
+    print("iOS Legacy:\(iosLegacy.count) words")
+    print("iOS Sigma:\(iosSigma.count) words")
+    print("android Legacy:\(androidLegacy.count) words")
+    print("android Sigma:\(androidSigma.count) words")
+    print("iOS only on Legacy:\(iOSOnlyOnLegacy.count) words")
+    print("iOS only on Sigma:\(iOSOnlyOnSigma.count) words")
+    print("android only on Legacy:\(androidOnlyLegacy.count) words")
+    print("android only on Sigma:\(androidOnlySigma.count) words")
+    print("total words: \(totalWords.count) words")
+    
+    printTranslations(object: totalWords.sorted(), printOption: .json)
+
+    
+    
 }

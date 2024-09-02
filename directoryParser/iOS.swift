@@ -104,6 +104,7 @@ class iOSParser
         for aFile in iosProjectDirectory {
             
             texts = texts + fetchTranslations(atPath: aFile)
+            texts = texts + parseLemmaStrings(atPath: aFile)
             
             let current = iosProjectDirectory.firstIndex(of: aFile)!
             let updatedPercentage =  Int(Double(current) / Double(iosProjectDirectory.count) * 100.0)
@@ -357,6 +358,33 @@ class iOSParser
         return matchedStrings
     }
     
+    
+    private class func parseLemmaStrings(atPath path: String) -> [String] {
+        if !path.contains("TranslatableTexts.swift") {
+            return []
+        }
+
+        var matchedStrings: [String] = []
+        do {
+            let text = try String(contentsOfFile: path, encoding: .utf8)
+            
+            let regexPattern = "case \\.\\w+(?:\\(.*?\\))?:\\s*return\\s*\"([^\"]*)\""
+            let regex = try NSRegularExpression(pattern: regexPattern)
+            
+            let matches = regex.matches(in: text, range: NSRange(location: 0, length: text.utf16.count))
+            
+            for match in matches {
+                if let range = Range(match.range(at: 1), in: text) {
+                    let extractedText = text[range]
+                    matchedStrings.append(String(extractedText))
+                }
+            }
+        } catch {
+            print("Failed to read the file or process regex due to: \(error)")
+        }
+
+        return matchedStrings
+    }
     /*
      fetches all translations from the given file
      */

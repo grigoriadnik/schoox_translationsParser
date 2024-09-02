@@ -85,6 +85,7 @@ class AndroidParser
         for aFile in androidProjectDirectory {
             
             texts = texts + parseJavaFileForAndroid(atPath: aFile)
+            texts = texts + parseLemma(atPath: aFile)
             //texts = texts + parseXMLFileForAndroid(atPath: aFile)
             
             let current = androidProjectDirectory.firstIndex(of: aFile)!
@@ -229,6 +230,26 @@ class AndroidParser
             matchedString = String(matchedString.dropLast())
             matchedStrings.append(matchedString)
         }
+        return matchedStrings
+    }
+    
+    private class func parseLemma(atPath path: String) -> [String] {
+        if !path.contains("Lemma.kt") {
+            return []
+        }
+        var matchedStrings : [String] = []
+        let text = try! String(contentsOfFile: path)
+        let regex = try! NSRegularExpression(pattern: "\\w+\\(\"([^\"]*)\"\\)")
+        let matches = regex.matches(in: text, options: [], range: NSRange(location: 0, length: text.utf16.count))
+            
+            for match in matches {
+                if let range = Range(match.range(at: 1), in: text) {
+                    let extractedText = text[range]
+                    matchedStrings.append(String(extractedText))
+                }
+            }
+        
+
         return matchedStrings
     }
 

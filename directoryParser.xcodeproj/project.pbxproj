@@ -11,14 +11,19 @@
 		191EDB2E2553FBFC0097CCD8 /* Utils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 191EDB2D2553FBFC0097CCD8 /* Utils.swift */; };
 		198C61D62822ABC400171ED6 /* Android.swift in Sources */ = {isa = PBXBuildFile; fileRef = 198C61D52822ABC400171ED6 /* Android.swift */; };
 		19B8B37828056823000BDB98 /* iOS.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19B8B37728056823000BDB98 /* iOS.swift */; };
+		19D498FC2B5E535100F849C1 /* iosLegacy.json in Resources */ = {isa = PBXBuildFile; fileRef = 19D498F82B5E535100F849C1 /* iosLegacy.json */; };
+		19D498FD2B5E535100F849C1 /* iosSigma.json in Resources */ = {isa = PBXBuildFile; fileRef = 19D498F92B5E535100F849C1 /* iosSigma.json */; };
+		19D498FE2B5E535100F849C1 /* androidSigma.json in Resources */ = {isa = PBXBuildFile; fileRef = 19D498FA2B5E535100F849C1 /* androidSigma.json */; };
+		19D498FF2B5E535100F849C1 /* androidLegacy.json in Resources */ = {isa = PBXBuildFile; fileRef = 19D498FB2B5E535100F849C1 /* androidLegacy.json */; };
+		19D499022B5E601F00F849C1 /* allWords.json in Resources */ = {isa = PBXBuildFile; fileRef = 19D499012B5E601F00F849C1 /* allWords.json */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
 		191EDB202553F9180097CCD8 /* CopyFiles */ = {
 			isa = PBXCopyFilesBuildPhase;
 			buildActionMask = 2147483647;
-			dstPath = /usr/share/man/man1/;
-			dstSubfolderSpec = 0;
+			dstPath = lol;
+			dstSubfolderSpec = 7;
 			files = (
 			);
 			runOnlyForDeploymentPostprocessing = 1;
@@ -32,6 +37,11 @@
 		191EDB2D2553FBFC0097CCD8 /* Utils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Utils.swift; sourceTree = "<group>"; };
 		198C61D52822ABC400171ED6 /* Android.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Android.swift; sourceTree = "<group>"; };
 		19B8B37728056823000BDB98 /* iOS.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = iOS.swift; sourceTree = "<group>"; };
+		19D498F82B5E535100F849C1 /* iosLegacy.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = iosLegacy.json; sourceTree = "<group>"; };
+		19D498F92B5E535100F849C1 /* iosSigma.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = iosSigma.json; sourceTree = "<group>"; };
+		19D498FA2B5E535100F849C1 /* androidSigma.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = androidSigma.json; sourceTree = "<group>"; };
+		19D498FB2B5E535100F849C1 /* androidLegacy.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = androidLegacy.json; sourceTree = "<group>"; };
+		19D499012B5E601F00F849C1 /* allWords.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = allWords.json; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -64,6 +74,7 @@
 		191EDB242553F9180097CCD8 /* directoryParser */ = {
 			isa = PBXGroup;
 			children = (
+				19D499002B5E535700F849C1 /* Words jsons */,
 				191EDB252553F9180097CCD8 /* main.swift */,
 				191EDB2D2553FBFC0097CCD8 /* Utils.swift */,
 				19B8B37728056823000BDB98 /* iOS.swift */,
@@ -71,6 +82,18 @@
 				1916974527C63FF300621918 /* MyPlayground.playground */,
 			);
 			path = directoryParser;
+			sourceTree = "<group>";
+		};
+		19D499002B5E535700F849C1 /* Words jsons */ = {
+			isa = PBXGroup;
+			children = (
+				19D498FB2B5E535100F849C1 /* androidLegacy.json */,
+				19D498FA2B5E535100F849C1 /* androidSigma.json */,
+				19D498F82B5E535100F849C1 /* iosLegacy.json */,
+				19D498F92B5E535100F849C1 /* iosSigma.json */,
+				19D499012B5E601F00F849C1 /* allWords.json */,
+			);
+			name = "Words jsons";
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -83,6 +106,7 @@
 				191EDB1E2553F9180097CCD8 /* Sources */,
 				191EDB1F2553F9180097CCD8 /* Frameworks */,
 				191EDB202553F9180097CCD8 /* CopyFiles */,
+				19D498C12B5A62F900F849C1 /* Resources */,
 			);
 			buildRules = (
 			);
@@ -124,6 +148,21 @@
 			);
 		};
 /* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		19D498C12B5A62F900F849C1 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				19D498FF2B5E535100F849C1 /* androidLegacy.json in Resources */,
+				19D498FC2B5E535100F849C1 /* iosLegacy.json in Resources */,
+				19D498FE2B5E535100F849C1 /* androidSigma.json in Resources */,
+				19D499022B5E601F00F849C1 /* allWords.json in Resources */,
+				19D498FD2B5E535100F849C1 /* iosSigma.json in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		191EDB1E2553F9180097CCD8 /* Sources */ = {
@@ -259,7 +298,8 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = F6SZHVD3AZ;
+				DEVELOPMENT_ASSET_PATHS = "";
+				DEVELOPMENT_TEAM = CMEB84Y6AL;
 				ENABLE_HARDENED_RUNTIME = YES;
 				MACOSX_DEPLOYMENT_TARGET = 12.3;
 				"PRODUCT_BUNDLE_IDENTIFIER[sdk=macosx*]" = translationsParser.schoox;
@@ -272,7 +312,8 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = F6SZHVD3AZ;
+				DEVELOPMENT_ASSET_PATHS = "";
+				DEVELOPMENT_TEAM = CMEB84Y6AL;
 				ENABLE_HARDENED_RUNTIME = YES;
 				MACOSX_DEPLOYMENT_TARGET = 12.3;
 				"PRODUCT_BUNDLE_IDENTIFIER[sdk=macosx*]" = translationsParser.schoox;

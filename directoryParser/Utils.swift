@@ -7,6 +7,7 @@
 
 import Foundation
 
+
 enum PrintOption {
     case json
     case array
@@ -34,7 +35,7 @@ func printTranslations(object: Any, printOption: PrintOption)
 func isCodeFile(atPath path: String) -> Bool
 {
     let pathExtension = URL(fileURLWithPath: path).pathExtension
-    return pathExtension == "swift" || pathExtension == "m" || pathExtension == "java" //|| pathExtension == "xml"
+    return pathExtension == "swift" || pathExtension == "m" || pathExtension == "java" || pathExtension == "kt"//|| pathExtension == "xml"
 }
 
 func isObjcFile(atPath path: String) -> Bool
@@ -115,6 +116,27 @@ func parseXMLFileForAndroid(atPath path: String) -> [String]
     }
     
     return matchedStrings
+}
+
+enum JSONFileType: String {
+    case iosLegacy
+    case iosSigma
+    case androidLegacy
+    case androidSigma
+}
+
+func loadWordsJson(_ filename: JSONFileType) -> [String] {
+    
+    let rootDir = NSURL(fileURLWithPath: "/Users/nikosgrigoriadis/PhpstormProjects/schoox_translationsParser/directoryParser/\(filename.rawValue).json")
+    do {
+        let data = try Data(contentsOf: rootDir as URL)
+        let decoder = JSONDecoder()
+        let jsonData = try decoder.decode([String].self, from: data)
+        return jsonData
+    } catch {
+        print("Error reading or decoding file: \(error)")
+    }
+    return []
 }
 
 func uniq<S : Sequence, T : Hashable>(source: S) -> [T] where S.Iterator.Element == T {
