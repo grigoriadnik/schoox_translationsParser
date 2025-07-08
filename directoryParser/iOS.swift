@@ -96,15 +96,23 @@ class iOSParser
         }
     }
     
-    class func run_extract_translations(replaceFormatters: Bool = false) -> Array<String>
+    class func run_extract_translations(replaceFormatters: Bool = false, runLemmataOnly: Bool?) -> Array<String>
     {
         var texts: [String] = []
         var percentage = 0
         
         for aFile in iosProjectDirectory {
-            
-            texts = texts + fetchTranslations(atPath: aFile)
-            texts = texts + parseLemmaStrings(atPath: aFile)
+            print(aFile)
+            if let runLemmataOnly {
+                if runLemmataOnly {
+                    texts = texts + parseLemmaStrings(atPath: aFile)
+                } else {
+                    texts = texts + fetchTranslations(atPath: aFile)
+                }
+            } else {
+                texts = texts + parseLemmaStrings(atPath: aFile)
+                texts = texts + fetchTranslations(atPath: aFile)
+            }
             
             let current = iosProjectDirectory.firstIndex(of: aFile)!
             let updatedPercentage =  Int(Double(current) / Double(iosProjectDirectory.count) * 100.0)
@@ -360,7 +368,7 @@ class iOSParser
     
     
     private class func parseLemmaStrings(atPath path: String) -> [String] {
-        if !path.contains("TranslatableTexts.swift") {
+        if !path.contains("LearnerLemma.swift") && !path.contains("BaseLemma.swift") {
             return []
         }
 

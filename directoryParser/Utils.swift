@@ -123,6 +123,7 @@ enum JSONFileType: String {
     case iosSigma
     case androidLegacy
     case androidSigma
+    case Lemmata
 }
 
 func loadWordsJson(_ filename: JSONFileType) -> [String] {

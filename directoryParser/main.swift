@@ -10,6 +10,7 @@ import Foundation
 enum RunOption: String {
     case iOS_find_errors
     case iOS_fetch_translations
+    case iOS_fetch_lemmata
     case android_find_errors
     case android_fetch_translations
     case fetch_translations_for_both
@@ -21,20 +22,29 @@ let option = RunOption(rawValue: ProcessInfo.processInfo.environment["runOption"
 
 switch option {
 case .iOS_find_errors:
+    
     iOSParser.run_find_errors()
 case .iOS_fetch_translations:
-    let translations = iOSParser.run_extract_translations()
+    
+    let translations = iOSParser.run_extract_translations(runLemmataOnly: false)
+    printTranslations(object: translations.sorted(), printOption: .json)
+    print("total words: \(translations.count)")
+case .iOS_fetch_lemmata:
+    
+    let translations = iOSParser.run_extract_translations(runLemmataOnly: true)
     printTranslations(object: translations.sorted(), printOption: .json)
     print("total words: \(translations.count)")
 case .android_find_errors:
+    
     AndroidParser.run_find_errors()
 case .android_fetch_translations:
+    
     let translations = AndroidParser.run_extract_translations()
     printTranslations(object: translations.sorted(), printOption: .json)
     print("total words: \(translations.count)")
 case .compareTranslations:
     
-    let iosTranslations = Set(iOSParser.run_extract_translations(replaceFormatters: true))
+    let iosTranslations = Set(iOSParser.run_extract_translations(replaceFormatters: true, runLemmataOnly: nil))
     let androidTranslations = Set(AndroidParser.run_extract_translations(replaceFormatters: true))
     
     var iOSonly = iosTranslations.subtracting(androidTranslations)
@@ -52,7 +62,7 @@ case .compareTranslations:
     print("common: \(common.count)")
     
 case .fetch_translations_for_both:
-    var translations = iOSParser.run_extract_translations()
+    var translations = iOSParser.run_extract_translations(runLemmataOnly: nil)
     translations = translations + AndroidParser.run_extract_translations()
     translations = Array(Set(translations))
     printTranslations(object: translations, printOption: .json)
@@ -65,6 +75,7 @@ case .combineTranslations:
     let iosSigma = Set(loadWordsJson(.iosSigma))
     let androidLegacy = Set(loadWordsJson(.androidLegacy))
     let androidSigma = Set(loadWordsJson(.androidSigma))
+    let lemmata = Set(loadWordsJson(.Lemmata))
     
     let iOSOnlyOnLegacy = iosLegacy.subtracting(iosSigma)
     let iOSOnlyOnSigma = iosSigma.subtracting(iosLegacy)
@@ -72,7 +83,7 @@ case .combineTranslations:
     let androidOnlyLegacy = androidLegacy.subtracting(androidSigma)
     let androidOnlySigma = androidSigma.subtracting(androidLegacy)
     
-    let totalWords = iosLegacy.union(iosSigma).union(androidLegacy).union(androidSigma)
+    let totalWords = iosLegacy.union(iosSigma).union(androidLegacy).union(androidSigma).union(lemmata)
     
     print("iOS Legacy:\(iosLegacy.count) words")
     print("iOS Sigma:\(iosSigma.count) words")

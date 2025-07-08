@@ -10,6 +10,7 @@
 		191EDB262553F9180097CCD8 /* main.swift in Sources */ = {isa = PBXBuildFile; fileRef = 191EDB252553F9180097CCD8 /* main.swift */; };
 		191EDB2E2553FBFC0097CCD8 /* Utils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 191EDB2D2553FBFC0097CCD8 /* Utils.swift */; };
 		198C61D62822ABC400171ED6 /* Android.swift in Sources */ = {isa = PBXBuildFile; fileRef = 198C61D52822ABC400171ED6 /* Android.swift */; };
+		19AEE7672D9E6A2C00611A37 /* Lemmata.json in Resources */ = {isa = PBXBuildFile; fileRef = 19AEE7662D9E6A2C00611A37 /* Lemmata.json */; };
 		19B8B37828056823000BDB98 /* iOS.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19B8B37728056823000BDB98 /* iOS.swift */; };
 		19D498FC2B5E535100F849C1 /* iosLegacy.json in Resources */ = {isa = PBXBuildFile; fileRef = 19D498F82B5E535100F849C1 /* iosLegacy.json */; };
 		19D498FD2B5E535100F849C1 /* iosSigma.json in Resources */ = {isa = PBXBuildFile; fileRef = 19D498F92B5E535100F849C1 /* iosSigma.json */; };
@@ -36,6 +37,7 @@
 		191EDB252553F9180097CCD8 /* main.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = main.swift; sourceTree = "<group>"; };
 		191EDB2D2553FBFC0097CCD8 /* Utils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Utils.swift; sourceTree = "<group>"; };
 		198C61D52822ABC400171ED6 /* Android.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Android.swift; sourceTree = "<group>"; };
+		19AEE7662D9E6A2C00611A37 /* Lemmata.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = Lemmata.json; sourceTree = "<group>"; };
 		19B8B37728056823000BDB98 /* iOS.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = iOS.swift; sourceTree = "<group>"; };
 		19D498F82B5E535100F849C1 /* iosLegacy.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = iosLegacy.json; sourceTree = "<group>"; };
 		19D498F92B5E535100F849C1 /* iosSigma.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = iosSigma.json; sourceTree = "<group>"; };
@@ -92,6 +94,7 @@
 				19D498F82B5E535100F849C1 /* iosLegacy.json */,
 				19D498F92B5E535100F849C1 /* iosSigma.json */,
 				19D499012B5E601F00F849C1 /* allWords.json */,
+				19AEE7662D9E6A2C00611A37 /* Lemmata.json */,
 			);
 			name = "Words jsons";
 			sourceTree = "<group>";
@@ -157,6 +160,7 @@
 				19D498FF2B5E535100F849C1 /* androidLegacy.json in Resources */,
 				19D498FC2B5E535100F849C1 /* iosLegacy.json in Resources */,
 				19D498FE2B5E535100F849C1 /* androidSigma.json in Resources */,
+				19AEE7672D9E6A2C00611A37 /* Lemmata.json in Resources */,
 				19D499022B5E601F00F849C1 /* allWords.json in Resources */,
 				19D498FD2B5E535100F849C1 /* iosSigma.json in Resources */,
 			);
